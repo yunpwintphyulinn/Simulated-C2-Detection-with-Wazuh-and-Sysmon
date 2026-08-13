@@ -21,7 +21,7 @@ A home-lab project simulating an attacker delivering a C2 (command-and-control) 
 
 All three VMs are on the same NAT Network(Soc-HomeLab-Net) VirtualBox network so they can reach each other.
 
-See [***lab topology***](environment/1-Lab-topology.png) for the diagram and connectivity notes.
+See [***Lab topology***](environment/1-Lab-topology.png) for the diagram and connectivity notes.
 
 ## 3. Tooling
 
@@ -33,7 +33,9 @@ See [***lab topology***](environment/1-Lab-topology.png) for the diagram and con
 
 ## 4. Setup Summary and Troubleshooting
 
-Full step-by-step commands are in [***Setup***](../docs/setup-and-controlled-stimulation.md) [***Troubleshooting***](../docs/troubleshooting.md) 
+Full step-by-step commands are in 
+[***Setup***](../docs/setup-and-controlled-stimulation.md)
+[***Troubleshooting***](../docs/troubleshooting.md) 
 
 ## 5. Attack Simulation Summary
 
