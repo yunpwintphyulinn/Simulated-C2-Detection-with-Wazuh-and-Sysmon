@@ -81,19 +81,25 @@ To close the gap, a custom rule was written to flag any executable using a misle
 
 ```
 Simulated-C2-Detection-with-Wazuh-and-Sysmon/
-├── README.md                      
+├── README.md
+├── LICENSE
 ├── docs/
-│   ├── investigation-report.md    
+│   ├── detection-rule.md
 │   ├── investigation-notes.md
-    ├── setup-and-controlled-simulation.md
-│   ├── detection-rule.md          
-│   └── troubleshooting.md         
+│   ├── investigation-report.md
+│   ├── setup-and-controlled-stimulation.md
+│   └── troubleshooting.md
 ├── environment/
-│   └── network-topology.md        
-├── rules/
-│   └── custom_rule_100100.xml     
-└── evidence/
-     └── screenshots                     
+│   └── 1-Lab-topology.png
+├── evidence/
+│   ├── 1-Lab-topology.png
+│   ├── 2-Wazuh-agent-active.png
+│   ├── 3-Payload-execution-EventID1.png
+│   ├── 4-Child-shell-EventID1.png
+│   ├── 5-Network-callback-EventID3.png
+│   └── 6-Custom-Wazuh-rule.png
+└── rules/
+    └── rules.xml                 
 ```
 ## 10. Skills Demonstrated
 
