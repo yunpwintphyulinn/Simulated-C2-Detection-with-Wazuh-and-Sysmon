@@ -2,7 +2,7 @@
 
 A home-lab project simulating an attacker delivering a C2 (command-and-control) payload to a Windows endpoint, and using Sysmon + Wazuh to generate telemetry, investigate the intrusion, and close a detection gap with a custom rule.
 
-> **Disclaimer:** This is an isolated, authorized home lab. All activity was performed against VMs owned and controlled by the author, on a host-only/internal network with no internet-facing exposure. No real-world systems were targeted. The generated payload is a standard Metasploit test payload used purely to produce realistic attacker telemetry for detection engineering practice.
+> **Disclaimer:** This is an isolated, authorized home lab. All activity was performed against VMs owned and controlled by the author, on a “VirtualBox NAT Network”. No real-world systems were targeted. The generated payload is a standard Metasploit test payload used purely to produce realistic attacker telemetry for detection engineering practice.
 
 ## 1. Objective
 
