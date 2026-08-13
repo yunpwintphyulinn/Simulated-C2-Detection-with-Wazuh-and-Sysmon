@@ -47,18 +47,29 @@ Full step-by-step commands are in *****Setup summary***** *****Troubleshooting**
 | Windows agent name | `windows10-victim` |
 | Execution time | 2026-08-11 11:55:07.420 UTC |
 
-## 6. Key Finding: Detection Gap
+## 6. Evidence timeline
+
+The timeline below uses the `UtcTime` values. The manual browser download occurred before the recorded Sysmon events, but its exact time was not captured.
+
+| Time shown in evidence | Event | Finding |
+| --- | --- | --- |
+| `2026-08-11 11:55:07.420 UTC` | Sysmon Event ID 1 | `Test.pdf.exe` executed from Downloads; parent was `explorer.exe` |
+| `2026-08-11 12:07:48.409 UTC` | Sysmon Event ID 3 | `Test.pdf.exe` connected to `192.168.100.10:4444` |
+| `2026-08-11 12:08:06.035 UTC` | Sysmon Event ID 1 | `Test.pdf.exe` spawned `cmd.exe` |
+
+
+## 7. Key Finding: Detection Gap
 
 Sysmon captured the observed execution chain: Test.pdf.exe executed from the Downloads folder, initiated an outbound connection to the Kali lab host on TCP 4444, and spawned cmd.exe. These events were retained in wazuh-archives-*. However, no original Sysmon file-creation event for C:\Users\yunpwint\Downloads\Test.pdf.exe was recovered, so the browser-download stage is documented as operator-observed rather than Sysmon-confirmed. No matching default Wazuh alert was identified during the investigation.
 
-## 7. Custom Detection Rule
+## 8. Custom Detection Rule
 
 To close the gap, a custom rule was written to flag any executable using a misleading double extension (e.g. `.pdf.exe`) launched from a user's `Downloads` folder — mapped to **MITRE ATT&CK T1036 (Masquerading)**.
 
 Rule file: *****rule.xml*****
 Design notes: *****detection_rule.md*****
 
-## 8. Repository Structure
+## 9. Repository Structure
 
 ```
 Simulated-C2-Detection-with-Wazuh-and-Sysmon/
@@ -76,4 +87,17 @@ Simulated-C2-Detection-with-Wazuh-and-Sysmon/
 └── evidence/
      └── screenshots                     
 ```
+## 10. Skills Demonstrated
+
+- SIEM deployment and troubleshooting (Wazuh manager/indexer/dashboard, agent enrollment)
+- Endpoint telemetry engineering (Sysmon configuration, log forwarding via `ossec.conf`)
+- Offensive tooling fundamentals (`msfvenom`, `msfconsole`, `nmap`) for generating realistic attacker telemetry
+- Log analysis and event correlation across Sysmon Event IDs 1, 3, and 11
+- Process-tree reconstruction using `ProcessGuid` / `ParentProcessGuid`
+- Detection engineering: identifying a coverage gap and writing a custom Wazuh rule
+- MITRE ATT&CK mapping
+- Incident documentation / report writing
+
+---
+*Built with the assistance of AI tools (ChatGPT and Claude) for structuring, documentation, and troubleshooting.*
 
