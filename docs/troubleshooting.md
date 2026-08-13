@@ -8,7 +8,7 @@ Chronological notes from setting up the lab, cleaned up from the original workin
 - Ubuntu 24.04 **Server** edition, accessed via the host browser, was very laggy and required frequent reloads of the dashboard.
 - Switched to **Ubuntu 24.04 Desktop** edition (16 GB RAM, 4 vCPU, 100 GB storage) running inside the VM itself — this resolved the responsiveness issue since the dashboard is accessed locally in the VM instead of proxied through the host browser.
 
-- ## Ubuntu VM Loses Network After Restart
+## Ubuntu VM Loses Network After Restart
 
 If the Ubuntu VM loses network connectivity after a restart, NetworkManager can be restarted:
 
