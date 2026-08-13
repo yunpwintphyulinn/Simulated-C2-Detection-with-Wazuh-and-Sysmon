@@ -21,7 +21,7 @@ A home-lab project simulating an attacker delivering a C2 (command-and-control) 
 
 All three VMs are on the same NAT Network(Soc-HomeLab-Net) VirtualBox network so they can reach each other.
 
-See *****network topology***** for the diagram and connectivity notes.
+See [***lab topology***](environment/1-Lab-topology.png) for the diagram and connectivity notes.
 
 ## 3. Tooling
 
