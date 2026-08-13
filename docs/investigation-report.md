@@ -45,10 +45,15 @@ explorer.exe
 The payload established an outbound TCP connection to `192.168.100.10:4444`, matching the attacker's Metasploit handler (`exploit/multi/handler`, payload `windows/x64/meterpreter_reverse_tcp`). 
 
 ### 4.4 Detection Gap
-Full evidence — execution, network connection, and child-process spawn — was present in `wazuh-archives-*`, but Wazuh's default rule set did not generate a `wazuh-alerts-*` entry for any of it. This is the central finding of the exercise: **telemetry visibility does not equal detection**. Detection requires rules tuned to the environment and threat model.
+Sysmon telemetry confirmed the execution of Test.pdf.exe (Event ID 1), its outbound TCP connection to 192.168.100.10:4444 (Event ID 3), and the subsequent creation of a cmd.exe child process (Event ID 1). These events were retained in wazuh-archives-*.
 
-The original file-write event for the download itself was not captured
+However, no matching default Wazuh alert was identified in wazuh-alerts-* within the scoped timeframe and queries used during the investigation. This demonstrates the central finding of the exercise: telemetry visibility does not automatically equal detection. Although the underlying activity was visible in the archived logs, a detection rule was still required to evaluate the behavior and generate an actionable alert.
 
+No Sysmon Event ID 11 was recovered for the original file path:
+
+C:\Users\yunpwint\Downloads\Test.pdf.exe
+
+Therefore, the browser-download stage is documented as an operator-observed action rather than a Sysmon-confirmed event. The absence of Event ID 11 does not prove that the download did not occur; it only means that the corresponding file-creation telemetry was not available in the retained evidence.
 ## 5. MITRE ATT&CK Mapping
 
 | Tactic | Technique | ID | Evidence |
