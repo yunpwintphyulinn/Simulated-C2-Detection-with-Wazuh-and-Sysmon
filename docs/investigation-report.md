@@ -55,7 +55,7 @@ The original file-write event for the download itself was not captured
 |---|---|---|---|
 | Defense Evasion | Masquerading (double file extension) | T1036 / T1036.007 | Filename `Test.pdf.exe` |
 | Execution | User Execution | T1204.002 | Sysmon Event ID 1, launched via `explorer.exe` |
-| Command and Control | Application Layer Protocol / non-standard port | T1071 / T1571 | Sysmon Event ID 3, outbound to port 4444 |
+| Command and Control | non-standard port | T1571 | Sysmon Event ID 3, outbound to port 4444 |
 | Command and Control | Ingress Tool Transfer | T1105 | Payload delivered via HTTP from Kali |
 
 ## 7. Remediation: Custom Detection Rule
