@@ -1,0 +1,1 @@
+# Simulated-C2-Detection-with-Wazuh-and-Sysmon
