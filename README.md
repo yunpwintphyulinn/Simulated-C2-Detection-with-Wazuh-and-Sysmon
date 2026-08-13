@@ -1,1 +1,49 @@
 # Simulated-C2-Detection-with-Wazuh-and-Sysmon
+
+A home-lab project simulating an attacker delivering a C2 (command-and-control) payload to a Windows endpoint, and using Sysmon + Wazuh to generate telemetry, investigate the intrusion, and close a detection gap with a custom rule.
+
+> **Disclaimer:** This is an isolated, authorized home lab. All activity was performed against VMs owned and controlled by the author, on a host-only/internal network with no internet-facing exposure. No real-world systems were targeted. The generated payload is a standard Metasploit test payload used purely to produce realistic attacker telemetry for detection engineering practice.
+
+## 1. Objective
+
+- Build a small "purple team" lab: attacker (Kali) → victim (Windows 10) → detection stack (Wazuh + Sysmon on Ubuntu).
+- Learn how attacker activity actually shows up as telemetry (process creation, file creation, network connections).
+- Confirm that raw telemetry can exist in a SIEM (`wazuh-archives-*`) **without** producing an alert (`wazuh-alerts-*`) — i.e. a detection gap — and then close that gap with a custom Wazuh rule.
+- Practice SOC-analyst workflow: reconstruct a process tree, correlate multiple Sysmon event IDs, map to MITRE ATT&CK, and write up findings.
+
+## 2. Lab Architecture
+
+| Role | OS | IP | Specs |
+|---|---|---|---|
+| Wazuh Manager / Indexer / Dashboard | Ubuntu 24.04 Desktop | 192.168.100.20 | 16 GB RAM, 4 vCPU, 100 GB disk |
+| Attacker | Kali Linux | 192.168.100.10 | 4 GB RAM, 2 vCPU, 80 GB disk |
+| Victim (monitored endpoint) | Windows 10 | 192.168.100.30 | 4 GB RAM, 4 vCPU, 80 GB disk |
+
+All three VMs are on the same NAT Network(Soc-HomeLab-Net) VirtualBox network so they can reach each other.
+
+See *****network topology***** for the diagram and connectivity notes.
+
+## 3. Tooling
+
+- **VirtualBox** — hypervisor for all three VMs
+- **Wazuh 4.9** (manager, indexer, dashboard, agent) — SIEM / detection stack
+- **Sysmon** (SwiftOnSecurity config) — Windows endpoint telemetry
+- **Metasploit Framework** (`msfvenom`, `msfconsole`) — payload generation and C2 handler
+- **Nmap** — service discovery against the victim
+
+## 4. Setup Summary and Troubleshooting
+
+Full step-by-step commands are in *****Setup summary***** *****Troubleshooting*****(build notes + issues hit along the way). 
+
+## 5. Attack Simulation Summary
+
+| Item | Value |
+|---|---|
+| Case ID | LAB-C2-001 |
+| Payload | `windows/x64/meterpreter_reverse_tcp` |
+| Filename (delivered) | `Test.pdf.exe` |
+| Delivery method | Manually downloaded through a web browser on the Windows 10 VM from the Kali HTTP server (http://192.168.100.10:9999/) |
+| C2 listener | Kali, port 4444 |
+| Windows agent name | `windows10-victim` |
+| Execution time | 2026-08-11 11:55:07.420 UTC |
+
