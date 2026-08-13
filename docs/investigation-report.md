@@ -9,7 +9,7 @@ On 2026-08-11, an authorized simulated intrusion was conducted in an isolated ho
 | Field | Value |
 |---|---|
 | Case ID | LAB-C2-001 |
-| Environment | Isolated home lab (VirtualBox, host-only network) |
+| Environment | Isolated home lab (VirtualBox, NAT network) |
 | Affected host | windows10-victim (192.168.100.30) |
 | Attacker host | Kali Linux (192.168.100.10) |
 | Detection stack | Wazuh 4.9 + Sysmon (SwiftOnSecurity config) |
