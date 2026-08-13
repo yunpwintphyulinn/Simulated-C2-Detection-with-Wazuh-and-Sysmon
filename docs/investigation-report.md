@@ -3,3 +3,65 @@
 ## 1. Executive Summary
 
 On 2026-08-11, an authorized simulated intrusion was conducted in an isolated home lab. A Meterpreter reverse-TCP payload (`Test.pdf.exe`), disguised with a double file extension, was delivered to a Windows 10 endpoint (`windows10-victim`) and executed by the simulated user. The payload established a command-and-control (C2) connection back to an attacker-controlled host (Kali, `192.168.100.10:4444`) and spawned an interactive shell. Sysmon captured the attack chain and forwarded it to Wazuh, but **the default Wazuh ruleset did not generate an alert** for this activity — the telemetry existed only in raw archives, not in the alert feed. A custom detection rule was subsequently written and deployed to close this gap.
+
+## 2. Case Details
+
+| Field | Value |
+|---|---|
+| Case ID | LAB-C2-001 |
+| Environment | Isolated home lab (VirtualBox, host-only network) |
+| Affected host | windows10-victim (192.168.100.30) |
+| Attacker host | Kali Linux (192.168.100.10) |
+| Detection stack | Wazuh 4.9 + Sysmon (SwiftOnSecurity config) |
+| Analyst | Yun Pwint Phyu Linn |
+| Date of activity | 2026-08-11 |
+
+## 3. Timeline
+
+| Time shown in evidence | Source | Finding |
+| --- | --- | --- |
+| Before recorded events | Operator action | File manually downloaded in a Windows browser |
+| `2026-08-11 11:55:07.420 UTC` | Sysmon Event ID 1 | `Test.pdf.exe` executed from `C:\Users\yunpwint\Downloads\Test.pdf.exe` |
+| `2026-08-11 12:07:48.409 UTC` | Sysmon Event ID 3 | `Test.pdf.exe` connected to `192.168.100.10:4444` |
+| `2026-08-11 12:08:06.035 UTC` | Sysmon Event ID 1 | `Test.pdf.exe` spawned `cmd.exe` |
+
+## 4. Technical Findings
+
+### 4.1 Execution
+`Test.pdf.exe`, a Meterpreter reverse-TCP payload built with `msfvenom`, was launched from the user's Downloads folder by `explorer.exe` (i.e., double-clicked by the user), consistent with a masquerading/social-engineering delivery scenario.
+
+- File hash (MD5): `31C3ECDD2CCE10B1B6F88F9EC36C5D8D`
+- ProcessGuid: `9baae5b7-0d9b-6a7b-cd01-000000001d00`
+- Integrity level: Medium (standard user context, not elevated)
+
+### 4.2 Process Tree
+```
+explorer.exe
+└── Test.pdf.exe   (ProcessGuid: 9baae5b7-0d9b-6a7b-cd01-000000001d00)
+    └── cmd.exe     (ProcessGuid: 9baae5b7-10a6-6a7b-3c02-000000001d00)
+```
+
+### 4.3 Command and Control
+The payload established an outbound TCP connection to `192.168.100.10:4444`, matching the attacker's Metasploit handler (`exploit/multi/handler`, payload `windows/x64/meterpreter_reverse_tcp`). 
+
+### 4.4 Detection Gap
+Full evidence — execution, network connection, and child-process spawn — was present in `wazuh-archives-*`, but Wazuh's default rule set did not generate a `wazuh-alerts-*` entry for any of it. This is the central finding of the exercise: **telemetry visibility does not equal detection**. Detection requires rules tuned to the environment and threat model.
+
+The original file-write event for the download itself was not captured
+
+## 5. MITRE ATT&CK Mapping
+
+| Tactic | Technique | ID | Evidence |
+|---|---|---|---|
+| Defense Evasion | Masquerading (double file extension) | T1036 / T1036.007 | Filename `Test.pdf.exe` |
+| Execution | User Execution | T1204.002 | Sysmon Event ID 1, launched via `explorer.exe` |
+| Command and Control | Application Layer Protocol / non-standard port | T1071 / T1571 | Sysmon Event ID 3, outbound to port 4444 |
+| Command and Control | Ingress Tool Transfer | T1105 | Payload delivered via HTTP from Kali |
+
+## 7. Remediation: Custom Detection Rule
+
+A custom Wazuh rule (ID `100100`, severity level 10) was created to flag any process created from a path containing `\Downloads\` with a filename matching a misleading double extension pattern (e.g. `*.pdf.exe`), scoped to Sysmon process-creation events (`sysmon_event1`).
+
+## 8. Verdict
+
+**Confirmed suspicious activity — authorized simulation.** Raw Sysmon telemetry confirmed execution of `Test.pdf.exe`, an outbound connection to the Kali C2 listener, and a spawned interactive shell. Wazuh's default rules did not generate a corresponding alert for any of this; the custom rule described above closes that specific gap.
