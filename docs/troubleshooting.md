@@ -51,7 +51,7 @@ sudo systemctl status wazuh-dashboard
 sudo systemctl status filebeat
 ```
 
-If there is a fail service or services :
+If one or more Wazuh services have failed, restart only the affected services:
 
 ```bash
 sudo systemctl restart wazuh-manager
