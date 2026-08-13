@@ -8,6 +8,8 @@ The custom rule addresses the masquerading and payload-execution stage of the at
 
 > **Disclaimer:** This is an isolated, authorized home lab. All activity was performed against VMs owned and controlled by the author, on a “VirtualBox NAT Network”. No real-world systems were targeted. The generated payload is a standard Metasploit test payload used purely to produce realistic attacker telemetry for detection engineering practice.
 
+> **Disclaimer:** Timestamp discrepancy : The screenshots show the chart around 12:25, while the Sysmon UtcTime values are around 11:55–12:08.Because the Wazuh server was brought online after the activity. The investigation timeline uses Sysmon UtcTime, representing endpoint event time. The dashboard’s @timestamp reflects later ingestion into Wazuh after the server became available.
+
 ## 1. Objective
 
 - Build a small "purple team" lab: attacker (Kali) → victim (Windows 10) → detection stack (Wazuh + Sysmon on Ubuntu).
@@ -98,7 +100,7 @@ Simulated-C2-Detection-with-Wazuh-and-Sysmon/
 - SIEM deployment and troubleshooting (Wazuh manager/indexer/dashboard, agent enrollment)
 - Endpoint telemetry engineering (Sysmon configuration, log forwarding via `ossec.conf`)
 - Offensive tooling fundamentals (`msfvenom`, `msfconsole`, `nmap`) for generating realistic attacker telemetry
-- Log analysis and event correlation across Sysmon Event IDs 1, 3, and 11
+- Log analysis and event correlation across Sysmon Event IDs 1 and 3.
 - Process-tree reconstruction using `ProcessGuid` / `ParentProcessGuid`
 - Detection engineering: identifying a coverage gap and writing a custom Wazuh rule
 - MITRE ATT&CK mapping
