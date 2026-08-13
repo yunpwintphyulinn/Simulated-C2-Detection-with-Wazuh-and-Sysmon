@@ -1,6 +1,10 @@
-# Simulated-C2-Detection-with-Wazuh-and-Sysmon
+# Simulated-C2-Investigation-with-Wazuh-and-Sysmon
 
-A home-lab project simulating an attacker delivering a C2 (command-and-control) payload to a Windows endpoint, and using Sysmon + Wazuh to generate telemetry, investigate the intrusion, and close a detection gap with a custom rule.
+An authorized home-lab project that simulates a Meterpreter reverse-TCP intrusion against a Windows 10 endpoint and investigates the resulting telemetry using Sysmon and Wazuh. The investigation correlates process creation, an outbound C2 callback, and child-shell execution through Sysmon Event IDs 1 and 3.
+
+The project also demonstrates the difference between telemetry visibility and alert generation: the simulated activity was retained in `wazuh-archives-*`, but no matching default Wazuh alert was identified during the scoped investigation. To improve detection coverage, a custom Wazuh rule was developed to identify double-extension executables, such as `Test.pdf.exe`, launched from a user’s Downloads directory.
+
+The custom rule addresses the masquerading and payload-execution stage of the attack chain, while the C2 callback is investigated through raw Sysmon network telemetry.
 
 > **Disclaimer:** This is an isolated, authorized home lab. All activity was performed against VMs owned and controlled by the author, on a “VirtualBox NAT Network”. No real-world systems were targeted. The generated payload is a standard Metasploit test payload used purely to produce realistic attacker telemetry for detection engineering practice.
 
