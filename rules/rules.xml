@@ -1,0 +1,10 @@
+<group name="local,windows,sysmon,masquerading,">
+  <rule id="100100" level="10">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\Users\\[^\\]+\\Downloads\\[^\\]+\.(?:pdf|docx?|xlsx?|jpg|png)\.(?:exe|scr|com|bat|cmd)$</field>
+    <description>Potential double-extension executable launched from Downloads</description>
+    <mitre>
+      <id>T1036.007</id>
+    </mitre>
+  </rule>
+</group>
