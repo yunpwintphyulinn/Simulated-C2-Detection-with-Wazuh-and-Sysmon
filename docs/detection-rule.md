@@ -22,7 +22,7 @@ The rule looks for a double-extension executable launched from a user's Download
 
 - `T1036.007 - Double File Extension`
 
-## Test the rule
+## Edited the rule
 
 1. Added the rule to `/var/ossec/etc/rules/local_rules.xml` on the Wazuh server.
 2. The manager was restarted :
@@ -31,9 +31,3 @@ The rule looks for a double-extension executable launched from a user's Download
    sudo systemctl restart wazuh-manager
    ```
 
-3. The authorized laboratory test was re-administered..
-4. Search `wazuh-alerts-*`:
-
-   ```text
-   rule.id:"100100"
-   ```
