@@ -64,10 +64,10 @@ Therefore, the browser-download stage is documented as an operator-observed acti
 | Command and Control | Non-standard port | T1571 | Sysmon Event ID 3, outbound to port 4444 |
 | Command and Control | Ingress Tool Transfer | T1105 | Payload delivered via HTTP from Kali |
 
-## 7. Remediation: Custom Detection Rule
+## 6. Remediation: Custom Detection Rule
 
 A custom Wazuh rule (ID `100100`, severity level 10) was created to flag any process created from a path containing `\Downloads\` with a filename matching a misleading double extension pattern (e.g. `*.pdf.exe`), scoped to Sysmon process-creation events (`sysmon_event1`).
 
-## 8. Verdict
+## 7. Verdict
 
 **Confirmed suspicious activity — authorized simulation.** Raw Sysmon telemetry confirmed execution of `Test.pdf.exe`, an outbound connection to the Kali C2 listener, and a spawned interactive shell. Wazuh's default rules did not generate a corresponding alert for any of this; the custom rule described above will close that specific gap. “rule developed; validation pending”
