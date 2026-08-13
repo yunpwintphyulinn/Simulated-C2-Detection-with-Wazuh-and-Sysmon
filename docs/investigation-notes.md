@@ -62,7 +62,8 @@ data.win.system.eventID: "3" AND data.win.eventdata.processGuid: "{9baae5b7-0d9b
 ```
 
 | Field | Value |
-|---| File manually downloaded through the Windows VM browser from the Kali HTTP server | 
+|---|---|
+| File manually downloaded through the Windows VM browser from the Kali HTTP server | 
 | Destination IP | 192.168.100.10 |
 | Destination port | 4444 |
 | ProcessGuid | `9baae5b7-0d9b-6a7b-cd01-000000001d00` |
