@@ -40,8 +40,8 @@ See [***Lab topology***](environment/1-Lab-topology.png) for the diagram and con
 ## 4. Setup Summary and Troubleshooting
 
 Full step-by-step commands are in 
-[***Setup***](../docs/setup-and-controlled-stimulation.md)
-[***Troubleshooting***](../docs/troubleshooting.md) 
+[***Setup***](docs/setup-and-controlled-stimulation.md)
+[***Troubleshooting***](docs/troubleshooting.md) 
 
 ## 5. Attack Simulation Summary
 
@@ -74,8 +74,8 @@ Sysmon captured the observed execution chain: Test.pdf.exe executed from the Dow
 
 To close the gap, a custom rule was written to flag any executable using a misleading double extension (e.g. `.pdf.exe`) launched from a user's `Downloads` folder — mapped to **MITRE ATT&CK T1036 (Masquerading)**.
 
-[***Rule File***](../rules/rules.xml)
-[***Design Note***](../docs/detection-rule.md)
+[***Rule File***](rules/rules.xml)
+[***Design Note***](docs/detection-rule.md)
 
 ## 9. Repository Structure
 
