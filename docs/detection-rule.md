@@ -24,14 +24,14 @@ The rule looks for a double-extension executable launched from a user's Download
 
 ## Test the rule
 
-1. Add the rule to `/var/ossec/etc/rules/local_rules.xml` on the Wazuh server.
-2. Restart the manager:
+1. Added the rule to `/var/ossec/etc/rules/local_rules.xml` on the Wazuh server.
+2. The manager was restarted :
 
    ```bash
    sudo systemctl restart wazuh-manager
    ```
 
-3. Run the authorized lab test again.
+3. The authorized laboratory test was re-administered..
 4. Search `wazuh-alerts-*`:
 
    ```text
