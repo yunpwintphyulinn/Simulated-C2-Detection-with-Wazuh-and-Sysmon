@@ -53,9 +53,10 @@ The original file-write event for the download itself was not captured
 
 | Tactic | Technique | ID | Evidence |
 |---|---|---|---|
-| Defense Evasion | Masquerading (double file extension) | T1036 / T1036.007 | Filename `Test.pdf.exe` |
+| Stealth | Double File Extension | T1036.007 | Filename `Test.pdf.exe` |
 | Execution | User Execution | T1204.002 | Sysmon Event ID 1, launched via `explorer.exe` |
-| Command and Control | non-standard port | T1571 | Sysmon Event ID 3, outbound to port 4444 |
+| Execution | Windows Command Shell | T1059.003 | Payload spawned `cmd.exe` |
+| Command and Control | Non-standard port | T1571 | Sysmon Event ID 3, outbound to port 4444 |
 | Command and Control | Ingress Tool Transfer | T1105 | Payload delivered via HTTP from Kali |
 
 ## 7. Remediation: Custom Detection Rule
