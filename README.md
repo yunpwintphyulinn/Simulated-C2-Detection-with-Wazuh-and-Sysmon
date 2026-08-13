@@ -42,8 +42,38 @@ Full step-by-step commands are in *****Setup summary***** *****Troubleshooting**
 | Case ID | LAB-C2-001 |
 | Payload | `windows/x64/meterpreter_reverse_tcp` |
 | Filename (delivered) | `Test.pdf.exe` |
-| Delivery method | Manually downloaded through a web browser on the Windows 10 VM from the Kali HTTP server (http://192.168.100.10:9999/) |
+| Delivery method | Manually downloaded through a web browser on the Windows 10 VM from the Kali HTTP server (hxxp://192[.]168[.]100[.]10:9999/) |
 | C2 listener | Kali, port 4444 |
 | Windows agent name | `windows10-victim` |
 | Execution time | 2026-08-11 11:55:07.420 UTC |
+
+## 6. Key Finding: Detection Gap
+
+Sysmon captured the observed execution chain: Test.pdf.exe executed from the Downloads folder, initiated an outbound connection to the Kali lab host on TCP 4444, and spawned cmd.exe. These events were retained in wazuh-archives-*. However, no original Sysmon file-creation event for C:\Users\yunpwint\Downloads\Test.pdf.exe was recovered, so the browser-download stage is documented as operator-observed rather than Sysmon-confirmed. No matching default Wazuh alert was identified during the investigation.
+
+## 7. Custom Detection Rule
+
+To close the gap, a custom rule was written to flag any executable using a misleading double extension (e.g. `.pdf.exe`) launched from a user's `Downloads` folder — mapped to **MITRE ATT&CK T1036 (Masquerading)**.
+
+Rule file: *****rule.xml*****
+Design notes: *****detection_rule.md*****
+
+## 8. Repository Structure
+
+```
+Simulated-C2-Detection-with-Wazuh-and-Sysmon/
+├── README.md                      
+├── docs/
+│   ├── investigation-report.md    
+│   ├── investigation-notes.md
+    ├── setup-and-controlled-simulation.md
+│   ├── detection-rule.md          
+│   └── troubleshooting.md         
+├── environment/
+│   └── network-topology.md        
+├── rules/
+│   └── custom_rule_100100.xml     
+└── evidence/
+     └── screenshots                     
+```
 
