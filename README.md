@@ -33,7 +33,7 @@ See [***lab topology***](environment/1-Lab-topology.png) for the diagram and con
 
 ## 4. Setup Summary and Troubleshooting
 
-Full step-by-step commands are in *****Setup summary***** *****Troubleshooting*****(build notes + issues hit along the way). 
+Full step-by-step commands are in [***Setup***](docs/setup-and-controlled-stimulation.md) [***lab topology***](environment/1-Lab-topology.png)(build notes + issues hit along the way). 
 
 ## 5. Attack Simulation Summary
 
